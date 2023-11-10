@@ -21,7 +21,7 @@ ElevateMe is a Self Service Jamf script that utilizes SwiftDialog to automate th
 - 🗃️ Housed completely within one script
 - 📋 Local logging & JAMF logging
 - 😄 User friendly GUI
-- 🔧 Customizable
+- 🔧 Debug mode for testing
 - 💻 Made specifically for a Jamf Pro environment
 - ✔️ Easy to setup
 
@@ -40,21 +40,40 @@ Make sure you have the following:
 ### Installation
 
 1. Create a new script named "ElevateMe" in your Jamf pro instance
-2. Copy the contents from ElevateMe.bash to this new script and press save
-3. Navigate to your computer policies and select "New"
-4. Give it a name, I chose "ElevateMe - Self Service"
-5. Select a Category if you want
-6. Under General, set the Execution Frequency to "Ongoing"
-7. Under Scripts, Select "Configure" and add our "ElevateMe" script
-8. Set a scope for the ElevateMe policy under the "Scope" tab, if you need it set to a specific subset of computers be sure to only select those computers
-9. Switch to the "Self Service" tab and check the box to enable this policy within Self Service
-10. Give it a display name, I chose "ElevateMe" again here
-11. Change both the Before and After Initiation button labels to "Elevate"
-12. Give it a description if you want/need
-13. Upload a preferred Icon
-14. Select a category to display the policy within Self Service, I chose my utilities category
-15. Double check all settings and press "Save" in the bottom right
+2. Copy the contents from ElevateMe.bash to this new script
+3. Under "Options" set the fourth parameter label to "Time Limit" and the fifth parameter label to "Debug"
+4. Navigate to your computer policies and select "New"
+5. Give it a name, I chose "ElevateMe - Self Service"
+6. Select a Category if you want
+7. Under General, set the Execution Frequency to "Ongoing"
+8. Under Scripts, Select "Configure" and add our "ElevateMe" script
+9. Enter a time limit in seconds or leave it blank to default to five minutes/three hundred seconds
+10. Enter "false" in the debug parameter slot to ensure the script actually elevates on launch, if you ever need to test this script you can set it to true and perform your tests
+11. Set a scope for the ElevateMe policy under the "Scope" tab, if you need it set to a specific subset of computers be sure to only select those computers
+12. Switch to the "Self Service" tab and check the box to enable this policy within Self Service
+13. Give it a display name, I chose "ElevateMe" again here
+14. Change both the Before and After Initiation button labels to "Elevate"
+15. Give it a description if you want/need
+16. Upload a preferred Icon
+17. Select a category to display the policy within Self Service, I chose my utilities category
+18. Double check all settings and press "Save" in the bottom right
 
 ### Usage
 
 Computers in the ElevateMe policy scope will now have a Self Service entry they can activate to gain Admin level access for the time limit that you have chosen
+
+When a user runs this script from within self service they will first be greeted by this window which requests their name and the reason they want admin privileges (If you don't like this display message you can change it on line 142 under the variable "page1message")
+
+<img width="815" alt="Screenshot 2023-11-10 at 9 53 52 AM" src="https://github.com/Tc00k/ElevateMe/assets/150291395/e0fd68a1-acb1-4052-a93e-843952bf1328">
+
+The user can either press "Cancel" or "Submit" at this point, both fields are required to Submit
+
+  Cancel: Closes the prompt and makes no changes to the users machine
+
+  OR
+
+  Submit: Submits users answers to the Jamf policy log and the local log which is located on line 12 under the variable "scriptLog", then runs the elevation function and starts the admin timer (pictured below)
+
+<img width="199" alt="Screenshot 2023-11-10 at 9 58 31 AM" src="https://github.com/Tc00k/ElevateMe/assets/150291395/3de11d25-d925-4155-9bed-989806335449">
+
+After the timer has expired the launchDaemon created by the Elevate function will trigger and run the demotion script at root level. Which will remove the user account from the admin list, cleanup by removing the Plist and Demotion script, then create a log archive for the past however long your admin session is set to run under the fourth script parameter. The default location for this log is listed on line 115 (/private/var/elevateLog.logarchive)
