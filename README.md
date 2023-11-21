@@ -41,22 +41,24 @@ Make sure you have the following:
 
 1. Create a new script named "ElevateMe" in your Jamf pro instance
 2. Copy the contents from ElevateMe.bash to this new script
-3. Under "Options" set the fourth parameter label to "Time Limit" and the fifth parameter label to "Debug"
-4. Navigate to your computer policies and select "New"
-5. Give it a name, I chose "ElevateMe - Self Service"
-6. Select a Category if you want
-7. Under General, set the Execution Frequency to "Ongoing"
-8. Under Scripts, Select "Configure" and add our "ElevateMe" script
-9. Enter a time limit in seconds or leave it blank to default to five minutes/three hundred seconds
-10. Enter "false" in the debug parameter slot to ensure the script actually elevates on launch, if you ever need to test this script you can set it to true and perform your tests
-11. Set a scope for the ElevateMe policy under the "Scope" tab, if you need it set to a specific subset of computers be sure to only select those computers
-12. Switch to the "Self Service" tab and check the box to enable this policy within Self Service
-13. Give it a display name, I chose "ElevateMe" again here
-14. Change both the Before and After Initiation button labels to "Elevate"
-15. Give it a description if you want/need
-16. Upload a preferred Icon
-17. Select a category to display the policy within Self Service, I chose my utilities category
-18. Double check all settings and press "Save" in the bottom right
+4. Under "Options" set the fourth parameter label to "Time Limit", fifth parameter label to "Debug", sixth parameter label to "Enable Webhook", and seventh parameter label to "Webhook URL"
+5. Navigate to your computer policies and select "New"
+6. Give it a name, I chose "ElevateMe - Self Service"
+7. Select a Category if you want
+8. Under General, set the Execution Frequency to "Ongoing"
+9. Under Scripts, Select "Configure" and add our "ElevateMe" script
+10. Enter a time limit in seconds or leave it blank to default to five minutes/three hundred seconds
+11. Enter "false" in the debug parameter slot to ensure the script actually elevates on launch, if you ever need to test this script you can set it to true and perform your tests
+12. Enter "true/false" in the Enable Webook parameter slot (True will send webhooks)
+13. Enter your webhook URL if you're using Slack webhooks in the Webhook URL parameter slot
+14. Set a scope for the ElevateMe policy under the "Scope" tab, if you need it set to a specific subset of computers be sure to only select those computers
+15. Switch to the "Self Service" tab and check the box to enable this policy within Self Service
+16. Give it a display name, I chose "ElevateMe" again here
+17. Change both the Before and After Initiation button labels to "Elevate"
+18. Give it a description if you want/need
+19. Upload a preferred Icon
+20. Select a category to display the policy within Self Service, I chose my utilities category
+21. Double check all settings and press "Save" in the bottom right
 
 ### Usage
 
