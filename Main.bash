@@ -16,7 +16,7 @@ demotion_plist="/Library/LaunchDaemons/demotion.plist" ## Demotion Plist locatio
 timeToDemotion="${4:-"300"}" ## Set demotion time limit with the fourth script parameter in JAMF [ Default: 300 ]
 
 doWebhook="${6:-"true"}" ## Sets the script to report to a slack channel via webhook [Default True]
-webhookURL=""  ## Your Slack Webhook URL
+webhookURL="${7:-""}"  ## Your Slack Webhook URL
 
 #############################################
 ##                 LOGGING                 ##
