@@ -8,13 +8,15 @@
 ##                VARIABLES                ##
 #############################################
 
-DEBUG="${5:-"true"}" ## Sets the script to debug for testing purposes
+DEBUG="${5:-"true"}" ## Sets the script to debug for testing purposes [Default True]
 scriptLog="/var/tmp/ElevateMeDialog.log" ## Local log location
 formJSONFile=$( mktemp -u /var/tmp/formJSONFile.XXX ) ## Temp file for JSON data that stores the request form
 demotion_script="/private/var/demotion_script" ## Demotion script location
 demotion_plist="/Library/LaunchDaemons/demotion.plist" ## Demotion Plist location
 timeToDemotion="${4:-"300"}" ## Set demotion time limit with the fourth script parameter in JAMF [ Default: 300 ]
 
+doWebhook="${6:-"true"}" ## Sets the script to report to a slack channel via webhook [Default True]
+webhookURL=""  ## Your Slack Webhook URL
 
 #############################################
 ##                 LOGGING                 ##
@@ -126,6 +128,50 @@ Elevate(){
 }
 
 #############################################
+##             WEBHOOK REPORTING           ##
+#############################################
+Webhook(){
+webHookdata=$(cat <<EOF
+{
+    "blocks": [
+        {
+            "type": "header",
+            "text": {
+                "type": "plain_text",
+                "text": "Admin Request:",
+                "emoji": true
+            }
+        },
+        {
+            "type": "section",
+            "fields": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*Computer Name:*\n$( scutil --get ComputerName )"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*User:*\n${loggedInUser}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Duration:*\n${timeToDemotion} seconds"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Details:*\n${formResults}"
+                }
+            ]
+        }
+    ]
+}
+EOF
+)
+
+/usr/bin/curl -sSX POST -H 'Content-type: application/json' --data "${webHookdata}" $webhookURL 2>&1
+}
+
+#############################################
 ##             REQUEST FORM SETUP          ##
 #############################################
 
@@ -186,6 +232,9 @@ case $formReturnCode in
     0)
     updateScriptLog "-- User pressed $page1button1text --"
     updateScriptLog "-- Elevating..."
+    if [ $doWebhook == "true" ]; then
+    Webhook
+    fi
     if [ $DEBUG == "false" ]; then
     Elevate
     fi
