@@ -24,6 +24,7 @@ ElevateMe is a Self Service Jamf script that utilizes SwiftDialog to automate th
 - 🔧 Debug mode for testing
 - 💻 Made specifically for a Jamf Pro environment
 - ✔️ Easy to setup
+- 🗞️ Slack reporting via Webhooks
 
 ## Getting Started
 
@@ -79,3 +80,7 @@ The user can either press "Cancel" or "Submit" at this point, both fields are re
 <img width="199" alt="Screenshot 2023-11-10 at 9 58 31 AM" src="https://github.com/Tc00k/ElevateMe/assets/150291395/3de11d25-d925-4155-9bed-989806335449">
 
 After the timer has expired the launchDaemon created by the Elevate function will trigger and run the demotion script at root level. Which will remove the user account from the admin list, cleanup by removing the Plist and Demotion script, then create a log archive for the past however long your admin session is set to run under the fourth script parameter. The default location for this log is listed on line 115 (/private/var/elevateLog.logarchive)
+
+![Screenshot 2023-11-21 at 4 28 40 PM](https://github.com/Tc00k/ElevateMe/assets/150291395/c2f60b9a-ce85-469b-8bc7-7e7816968bfb)
+
+This is what the Slack webhook reporting looks like by default
