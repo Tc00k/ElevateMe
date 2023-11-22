@@ -238,7 +238,7 @@ case $formReturnCode in
     if [ $DEBUG == "false" ]; then
     Elevate
     fi
-    $dialogBinary --timer 300 --position bottomright --moveable --message "" --title "Admin time remaining:" --height 100  --icon none --width 200 --titlefont 'size=14'
+    $dialogBinary --timer $timeToDemotion --position bottomright --moveable --message "" --title "Admin time remaining:" --height 100  --icon none --width 200 --titlefont 'size=14'
     rm -rf $formJSONFile
     ;;
     ## Button 2 Return
