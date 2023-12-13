@@ -14,8 +14,10 @@ formJSONFile=$( mktemp -u /var/tmp/formJSONFile.XXX ) ## Temp file for JSON data
 demotion_script="/private/var/demotion_script" ## Demotion script location
 demotion_plist="/Library/LaunchDaemons/demotion.plist" ## Demotion Plist location
 timeToDemotion="${4:-"300"}" ## Set demotion time limit with the fourth script parameter in JAMF [ Default: 300 ]
+jamfComputerID=$( defaults read '/Library/Managed Preferences/com.elevateme.plist' 'jamf_mac_username' )
+jamfproComputerURL="https://yourJamfInstanceHere.com/computers.html?id=${jamfComputerID}&o=r"
 
-doWebhook="${6:-"true"}" ## Sets the script to report to a slack channel via webhook [Default True]
+doWebhook="${6:-"false"}" ## Sets the script to report to a slack channel via webhook [Default True]
 webhookURL="${7:-""}"  ## Your Slack Webhook URL
 
 #############################################
@@ -86,7 +88,7 @@ updateScriptLog "-- Generating Demotion Plist content..."
 
 Elevate(){
     if [ $DEBUG == "false" ]; then
-        ## Create Demotion plist to run demotion script after five minutes
+        ## Create Demotion plist to run demotion script after set time
         echo "$demotion_plist_content" > $demotion_plist
         chmod 644 $demotion_plist
         chown root:wheel $demotion_plist
@@ -130,6 +132,7 @@ Elevate(){
 #############################################
 ##             WEBHOOK REPORTING           ##
 #############################################
+
 Webhook(){
 webHookdata=$(cat <<EOF
 {
@@ -141,6 +144,9 @@ webHookdata=$(cat <<EOF
                 "text": "Admin Request:",
                 "emoji": true
             }
+        },
+        {
+            "type": "divider"
         },
         {
             "type": "section",
@@ -162,6 +168,27 @@ webHookdata=$(cat <<EOF
                     "text": "*Details:*\n${formResults}"
                 }
             ]
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "View in Jamf",
+                        "emoji": false
+                    },
+                    "style": "primary",
+                    "url": "${jamfproComputerURL}"
+                }
+            ]
+        },
+        {
+            "type": "divider"
         }
     ]
 }
