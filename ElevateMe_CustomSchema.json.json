@@ -1,0 +1,12 @@
+{
+  "title": "ElevateMe",
+  "description": "Jamf Computer ID",
+  "properties": {
+    "jamf_computer_id": {
+      "title": "Computer ID",
+      "description": "Computer ID within Jamf",
+      "property_order": 10,
+      "type": "string"
+    }
+  }
+}
