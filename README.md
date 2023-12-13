@@ -51,15 +51,15 @@ Make sure you have the following:
 10. Enter a time limit in seconds or leave it blank to default to five minutes/three hundred seconds
 11. Enter "false" in the debug parameter slot to ensure the script actually elevates on launch, if you ever need to test this script you can set it to true and perform your tests
 12. Enter "true/false" in the Enable Webook parameter slot (True will send webhooks)
-13. Enter your webhook URL if you're using Slack webhooks in the Webhook URL parameter slot
+13. If you are using the Slack Webhook function please check the [Webhook Setup](#webhook-setup) section of this readme now
 14. Set a scope for the ElevateMe policy under the "Scope" tab, if you need it set to a specific subset of computers be sure to only select those computers
 15. Switch to the "Self Service" tab and check the box to enable this policy within Self Service
 16. Give it a display name, I chose "ElevateMe" again here
 17. Change both the Before and After Initiation button labels to "Elevate"
 18. Give it a description if you want/need
 19. Upload a preferred Icon
-20. Select a category to display the policy within Self Service, I chose my utilities category
-21. Double check all settings and press "Save" in the bottom right
+29. Select a category to display the policy within Self Service, I chose my utilities category
+20. Double check all settings and press "Save" in the bottom right
 
 ### Usage
 
@@ -84,3 +84,18 @@ After the timer has expired the launchDaemon created by the Elevate function wil
 ![Screenshot 2023-11-21 at 4 28 40 PM](https://github.com/Tc00k/ElevateMe/assets/150291395/c2f60b9a-ce85-469b-8bc7-7e7816968bfb)
 
 This is what the Slack webhook reporting looks like by default
+
+### Webhook Setup
+
+1. Ensure that line 20 "doWebhook" is set to "true"
+2. Ensure that you have entered your Webhook URL in line 21 "webhookURL" (Check [Slack](https://api.slack.com/messaging/webhooks) for more information on setting up webhooks)
+3. Adjust line 18 "jamfproComputerURL" to reflect your Jamf instance "https://company.jamfcloud.com"
+4. Open your Jamf Pro instance and create a new Configuration Profile
+5. Under the "General" tab give your configuration profile a name and description then, set a category, set "Level" to "Computer Level", and finally set "Distribution Method" to "Install Automatically"
+6. Under the "Applications & Custom Settings --> External Applications" tab Select "Add"
+7. Set "Source" to "Custom Schema" and "Preference Domain" to "com.elevateme"
+8. Select "Add Schema" and paste the contents of "ElevateMe_CustomSchema.json" into the available field and press "Save"
+9. Enter "$JSSID" into the "Computer ID" field
+10. Scope this configuration profile to the same machines as your ElevateMe policy and press "Save"
+11. You can now return to step 14 of the [Installation](#installation) category
+    
