@@ -89,7 +89,7 @@ This is what the Slack webhook reporting looks like by default
 
 1. Ensure that line 20 "doWebhook" is set to "true"
 2. Ensure that you have entered your Webhook URL in line 21 "webhookURL" (Check [Slack](https://api.slack.com/messaging/webhooks) for more information on setting up webhooks)
-3. Adjust line 18 "jamfproComputerURL" to reflect your Jamf instance "https://company.jamfcloud.com"
+3. Adjust line 18 "jamfproComputerURL" to reflect your Jamf instance "examplecompany.jamfcloud.com"
 4. Open your Jamf Pro instance and create a new Configuration Profile
 5. Under the "General" tab give your configuration profile a name and description then, set a category, set "Level" to "Computer Level", and finally set "Distribution Method" to "Install Automatically"
 6. Under the "Applications & Custom Settings --> External Applications" tab Select "Add"
