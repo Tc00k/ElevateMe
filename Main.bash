@@ -75,7 +75,7 @@ updateScriptLog "-- Generating Demotion Plist content..."
 		    <string>/private/var/demotion_script</string>
 	    </array>
 	    <key>RunAtLoad</key>
-	    <true/>
+	    <false/>
 	    <key>StartInterval</key>
 	    <integer>$timeToDemotion</integer>
     </dict>
