@@ -8,17 +8,17 @@
 ##                VARIABLES                ##
 #############################################
 
+timeToDemotion="${4:-"300"}" ## Set demotion time limit with the fourth script parameter in JAMF [ Default: 300 ]
 DEBUG="${5:-"true"}" ## Sets the script to debug for testing purposes [Default True]
+doWebhook="${6:-"false"}" ## Sets the script to report to a slack channel via webhook [Default True]
+webhookURL="${7:-""}"  ## Your Slack Webhook URL
+
 scriptLog="/var/tmp/ElevateMeDialog.log" ## Local log location
 formJSONFile=$( mktemp -u /var/tmp/formJSONFile.XXX ) ## Temp file for JSON data that stores the request form
 demotion_script="/private/var/demotion_script" ## Demotion script location
 demotion_plist="/Library/LaunchDaemons/demotion.plist" ## Demotion Plist location
-timeToDemotion="${4:-"300"}" ## Set demotion time limit with the fourth script parameter in JAMF [ Default: 300 ]
 jamfComputerID=$( defaults read '/Library/Managed Preferences/com.elevateme.plist' 'jamf_mac_username' )
 jamfproComputerURL="https://yourJamfInstanceHere.com/computers.html?id=${jamfComputerID}&o=r"
-
-doWebhook="${6:-"false"}" ## Sets the script to report to a slack channel via webhook [Default True]
-webhookURL="${7:-""}"  ## Your Slack Webhook URL
 
 #############################################
 ##                 LOGGING                 ##
